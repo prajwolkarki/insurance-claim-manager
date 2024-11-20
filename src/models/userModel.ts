@@ -1,4 +1,4 @@
-import { verify } from "crypto";
+
 import mongoose from "mongoose";
 // Define the schema for the user
 const userSchema = new mongoose.Schema({
@@ -24,6 +24,16 @@ const userSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
+    provider: {
+        type: String,
+        default: "credentials", 
+      },
+      providerId: {
+        type: String,
+      },
+      image: {
+        type: String, 
+      },
     forgotPasswordToken: String,
     forgotPasswordTokenExpiry: Date,
     verifyCode: String,

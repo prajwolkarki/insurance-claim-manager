@@ -1,13 +1,16 @@
 "use client"
 import axios from "axios";
+import { set } from "mongoose";
 import { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 
 export default function ForgotPasswordPage(){
     const [email, setEmail] = useState("");
     const [message,setMessage] = useState("");
+    const [loading, setLoading] = useState(false);
 
     const handleSubmit = async (e:any) => {
+        setLoading(true);
         e.preventDefault();
         try{
             const response = await axios.post("/api/users/forgotpassword",{email});
@@ -16,12 +19,16 @@ export default function ForgotPasswordPage(){
         }catch(error:any){
             setMessage(error.response.data.error);
             toast.error(error.response.data.error)
+        }finally{
+            setLoading(false);
         }
     }
     return (
         <div className="flex items-center justify-center min-h-screen bg-gray-100">
             <div className="w-full max-w-sm bg-white shadow-lg rounded-lg p-6">
-                <h1 className="text-xl font-semibold text-gray-700 mb-6">Forgot Password</h1>
+                <h1 className="text-xl font-semibold text-gray-700 mb-6">
+                    {loading ? "Sending OTP..." : "Forgot Password"}
+                </h1>
                 <Toaster />
                 <form onSubmit={handleSubmit}>
                     <div className="mb-4">

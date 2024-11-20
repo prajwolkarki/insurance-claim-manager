@@ -6,11 +6,15 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 
+
 export default function SignUp() {
+
   const router = useRouter();
   const [buttonDisabled, setButtonDisabled] = useState(false);
+  const [isSigningUp, setIsSigningUp] = useState(false);
   const [user, setUser] = useState({ username: "", email: "", password: "" });
   const onSignUp = async () => {
+    setIsSigningUp(true);
     try {
       const response = await axios.post("/api/users/signup", user);
      // console.log(response.data);
@@ -25,6 +29,8 @@ export default function SignUp() {
       toast.error(error.response?.data?.error || "Something went wrong", {
         className: "bg-red-500 text-white font-bold p-4 rounded-lg shadow-lg",
       });
+    }finally{
+      setIsSigningUp(false);
     }
   };
   
@@ -43,7 +49,9 @@ export default function SignUp() {
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="w-full max-w-sm bg-white shadow-lg rounded-lg p-6">
-        <h1 className="text-xl font-semibold text-gray-700 mb-6">Sign Up</h1>
+        <h1 className="text-xl font-semibold text-gray-700 mb-6">
+          {isSigningUp ? "Signing Up..." : "Sign Up"}
+        </h1>
         <Toaster />
         {/* Username Field */}
         <div className="mb-4">
@@ -105,7 +113,6 @@ export default function SignUp() {
           </div>
         </div>
 
-  
 
         {/* Submit Button */}
         <button
