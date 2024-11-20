@@ -81,7 +81,7 @@ export async function POST(req: NextRequest) {
       await user.save({ validateBeforeSave: false });
 
       return NextResponse.json(
-        { error: "Failed to send password reset email" },
+        { error: "Failed to send password reset email",emailError },
         { status: 500 }
       );
     }
