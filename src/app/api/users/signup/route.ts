@@ -30,6 +30,7 @@ export async function POST(request: NextRequest) {
       email,
       password: hashedPassword,
     });
+    await newUser.validate();
     const otp = crypto.randomBytes(3).toString('hex'); 
     newUser.verifyCode = otp;
     newUser.verifyCodeExpiry = Date.now() + 3600000; 
