@@ -2,38 +2,35 @@
 import mongoose from "mongoose";
 // Define the schema for the user
 const userSchema = new mongoose.Schema({
-    username:{
+    username: {
         type: String,
         required: [true, "Please provide a username"],
-        unique: true
+        unique: true,
+        trim: true,
+        minlength: [3, "Username must be at least 3 characters long"]
     },
-    email:{
+    email: {
         type: String,
         required: [true, "Please provide an email"],
-        unique: true
+        unique: true,
+        lowercase: true,
+        match: [/.+@.+\..+/, "Please provide a valid email address"]
     },
-    password:{
+    password: {
         type: String,
-        required: [true, "Please provide a password"]
+        required: [true, "Please provide a password"],
+        minlength: [8, "Password must be at least 8 characters long"]
     },
-    isVerified:{
+    isVerified: {
         type: Boolean,
         default: false
     },
-    isAdmin:{
-        type: Boolean,
-        default: false
+    role: {
+        type: String,
+        default: "user",
+        enum: ["user", "admin"]
     },
-    provider: {
-        type: String,
-        default: "credentials", 
-      },
-      providerId: {
-        type: String,
-      },
-      image: {
-        type: String, 
-      },
+
     forgotPasswordToken: String,
     forgotPasswordTokenExpiry: Date,
     verifyCode: String,
